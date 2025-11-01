@@ -73,4 +73,12 @@ long	elapsed_time(long start_time);
 void	precise_sleep(long duration);
 void	smart_sleep(long duration);
 
+/* ************************************************************************** */
+/*                    INITIALIZATION & CLEANUP FUNCTIONS                      */
+/* ************************************************************************** */
+int		init_mutexes(t_table *table);
+int		init_philosophers(t_table *table);
+int		init_table(t_table *table);
+void	cleanup_table(t_table *table);
+
 #endif

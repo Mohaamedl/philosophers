@@ -19,7 +19,7 @@ INCLUDES = -I./include
 
 # Source files
 SRC_DIR = src
-SRC_FILES = parsing.c time.c
+SRC_FILES = parsing.c time.c init.c cleanup.c
 SRCS = $(addprefix $(SRC_DIR)/, $(SRC_FILES))
 
 # Test files
@@ -55,14 +55,33 @@ $(OBJ_DIR)/$(TEST_DIR)/%.o: $(TEST_DIR)/%.c
 	@$(CC) $(CFLAGS) $(INCLUDES) -c $< -o $@
 
 # Build and run Phase 1 tests
-test: $(TEST_NAME)
-	@echo "$(BLUE)Running Phase 1 Unit Tests...$(RESET)"
-	@./$(TEST_NAME)
+test: test1
 
-$(TEST_NAME): $(OBJ_DIR)/$(TEST_DIR)/test_phase1.o $(OBJ_DIR)/parsing.o $(OBJ_DIR)/time.o
-	@echo "$(BLUE)Compiling test suite...$(RESET)"
-	@$(CC) $(CFLAGS) $(INCLUDES) $^ -o $(TEST_NAME)
-	@echo "$(GREEN)✓ Test suite compiled successfully!$(RESET)"
+test1: test_phase1
+	@echo "$(BLUE)Running Phase 1 Unit Tests...$(RESET)"
+	@./test_phase1
+
+test_phase1: $(OBJ_DIR)/$(TEST_DIR)/test_phase1.o $(OBJ_DIR)/parsing.o $(OBJ_DIR)/time.o
+	@echo "$(BLUE)Compiling Phase 1 test suite...$(RESET)"
+	@$(CC) $(CFLAGS) $(INCLUDES) $^ -o test_phase1
+	@echo "$(GREEN)✓ Phase 1 test suite compiled successfully!$(RESET)"
+
+# Build and run Phase 2 tests
+test2: test_phase2
+	@echo "$(BLUE)Running Phase 2 Unit Tests...$(RESET)"
+	@./test_phase2
+
+test_phase2: $(OBJ_DIR)/$(TEST_DIR)/test_phase2.o $(OBJ_DIR)/parsing.o $(OBJ_DIR)/time.o $(OBJ_DIR)/init.o $(OBJ_DIR)/cleanup.o
+	@echo "$(BLUE)Compiling Phase 2 test suite...$(RESET)"
+	@$(CC) $(CFLAGS) $(INCLUDES) $^ -o test_phase2
+	@echo "$(GREEN)✓ Phase 2 test suite compiled successfully!$(RESET)"
+
+# Run all tests
+test_all: test1 test2
+	@echo "$(GREEN)All test phases completed!$(RESET)"
+
+# Legacy test name for backward compatibility
+$(TEST_NAME): test_phase1
 
 clean:
 	@echo "$(RED)Cleaning object files...$(RESET)"
@@ -71,7 +90,7 @@ clean:
 
 fclean: clean
 	@echo "$(RED)Removing executables...$(RESET)"
-	@rm -f $(NAME) $(TEST_NAME)
+	@rm -f $(NAME) test_phase1 test_phase2
 	@echo "$(GREEN)✓ Full clean complete!$(RESET)"
 
 re: fclean all
@@ -81,4 +100,4 @@ norm:
 	@echo "$(BLUE)Running norminette...$(RESET)"
 	@norminette include/ src/ || true
 
-.PHONY: all clean fclean re test norm
+.PHONY: all clean fclean re test test1 test2 test_all norm
