@@ -18,25 +18,29 @@
 ** @return: void
 ** 
 ** Implementation:
-**   1. Lock write_lock mutex for exclusive output access
-**   2. Check if simulation has ended (no output after death)
-**   3. Get current timestamp with elapsed_time()
-**   4. Print formatted message: "timestamp id message"
-**   5. Unlock write_lock mutex
+**   1. Lock sim_lock to check simulation_end flag
+**   2. If simulation ended, unlock and return (no output after death)
+**   3. Unlock sim_lock
+**   4. Lock write_lock mutex for exclusive output access
+**   5. Get current timestamp and print message
+**   6. Unlock write_lock mutex
 ** 
 ** Format: [timestamp_in_ms] [philosopher_id] [message]
-** Example: 142 3 has taken a fork
 */
 void	safe_print(t_philo *philo, char *msg)
 {
 	long	timestamp;
 
-	pthread_mutex_lock(&philo->table->write_lock);
-	if (!philo->table->simulation_end)
+	pthread_mutex_lock(&philo->table->sim_lock);
+	if (philo->table->simulation_end)
 	{
-		timestamp = elapsed_time(philo->table->start_time);
-		printf("%ld %d %s\n", timestamp, philo->id, msg);
+		pthread_mutex_unlock(&philo->table->sim_lock);
+		return ;
 	}
+	pthread_mutex_unlock(&philo->table->sim_lock);
+	pthread_mutex_lock(&philo->table->write_lock);
+	timestamp = elapsed_time(philo->table->start_time);
+	printf("%ld %d %s\n", timestamp, philo->id, msg);
 	pthread_mutex_unlock(&philo->table->write_lock);
 }
 
@@ -46,22 +50,25 @@ void	safe_print(t_philo *philo, char *msg)
 ** @return: void
 ** 
 ** Implementation:
-**   1. Lock write_lock mutex for exclusive output access
-**   2. Print death message with timestamp
-**   3. Set simulation_end flag to true
-**   4. Unlock write_lock mutex
+**   1. Lock sim_lock to set simulation_end flag atomically
+**   2. Set simulation_end to true
+**   3. Unlock sim_lock
+**   4. Lock write_lock for exclusive output
+**   5. Print death message with timestamp
+**   6. Unlock write_lock
 ** 
-** This ensures death message is printed exactly once and
-** no other messages are printed after death.
+** Order matters: set flag first, then print to prevent race.
 */
 void	announce_death(t_philo *philo)
 {
 	long	timestamp;
 
+	pthread_mutex_lock(&philo->table->sim_lock);
+	philo->table->simulation_end = true;
+	pthread_mutex_unlock(&philo->table->sim_lock);
 	pthread_mutex_lock(&philo->table->write_lock);
 	timestamp = elapsed_time(philo->table->start_time);
 	printf("%ld %d died\n", timestamp, philo->id);
-	philo->table->simulation_end = true;
 	pthread_mutex_unlock(&philo->table->write_lock);
 }
 

@@ -105,4 +105,13 @@ void	*philosopher_routine(void *arg);
 int		create_threads(t_table *table);
 void	join_threads(t_table *table);
 
+/* ************************************************************************** */
+/*                         MONITOR FUNCTIONS                                  */
+/* ************************************************************************** */
+bool	is_philosopher_dead(t_philo *philo, long current_time);
+bool	all_philosophers_satisfied(t_table *table);
+void	*monitor_routine(void *arg);
+int		start_monitor(t_table *table);
+void	join_monitor(t_table *table);
+
 #endif

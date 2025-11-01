@@ -19,7 +19,7 @@ INCLUDES = -I./include
 
 # Source files
 SRC_DIR = src
-SRC_FILES = main.c parsing.c time.c init.c cleanup.c sync.c actions.c routine.c
+SRC_FILES = main.c parsing.c time.c init.c cleanup.c sync.c actions.c routine.c monitor.c
 SRCS = $(addprefix $(SRC_DIR)/, $(SRC_FILES))
 
 # Test files

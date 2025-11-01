@@ -134,12 +134,26 @@ void	sleep_action(t_philo *philo)
 ** 
 ** Implementation:
 **   1. Print "is thinking" message
-**   2. Optional: brief thinking delay for load balancing
+**   2. Add small delay for odd philosopher counts to prevent starvation
 ** 
-** Note: Thinking time can be adjusted to prevent starvation
-** in scenarios with tight timing constraints.
+** Note: With odd number of philosophers, without thinking time,
+** some philosophers can monopolize forks, causing others to starve.
+** The delay gives everyone a fair chance to acquire forks.
 */
 void	think_action(t_philo *philo)
 {
+	long	think_time;
+
 	safe_print(philo, "is thinking");
+	if (philo->table->philo_count % 2 != 0)
+	{
+		think_time = (philo->table->time_to_eat * 2)
+			- philo->table->time_to_sleep;
+		if (think_time < 0)
+			think_time = 0;
+		if (think_time > 600)
+			think_time = 200;
+		if (think_time > 0)
+			usleep(think_time * 1000);
+	}
 }

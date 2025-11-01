@@ -116,3 +116,15 @@ void	join_threads(t_table *table)
 		i++;
 	}
 }
+
+/*
+** @brief: Waits for monitor thread to complete
+** @param: table - pointer to table structure
+** @return: void
+** 
+** Note: Called after monitor detects death or completion.
+*/
+void	join_monitor(t_table *table)
+{
+	pthread_join(table->monitor, NULL);
+}
