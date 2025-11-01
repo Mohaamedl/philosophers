@@ -45,6 +45,8 @@ void	*philosopher_routine(void *arg)
 			usleep(100);
 		return (NULL);
 	}
+	if (philo->id % 2 == 0)
+		usleep(15000);
 	while (!should_end_simulation(philo->table))
 	{
 		take_forks(philo);
