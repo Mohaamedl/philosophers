@@ -81,4 +81,28 @@ int		init_philosophers(t_table *table);
 int		init_table(t_table *table);
 void	cleanup_table(t_table *table);
 
+/* ************************************************************************** */
+/*                      SYNCHRONIZATION FUNCTIONS                             */
+/* ************************************************************************** */
+void	safe_print(t_philo *philo, char *msg);
+void	announce_death(t_philo *philo);
+int		should_end_simulation(t_table *table);
+void	end_simulation(t_table *table);
+
+/* ************************************************************************** */
+/*                       PHILOSOPHER ACTIONS                                  */
+/* ************************************************************************** */
+void	take_forks(t_philo *philo);
+void	eat_action(t_philo *philo);
+void	drop_forks(t_philo *philo);
+void	sleep_action(t_philo *philo);
+void	think_action(t_philo *philo);
+
+/* ************************************************************************** */
+/*                       PHILOSOPHER ROUTINE                                  */
+/* ************************************************************************** */
+void	*philosopher_routine(void *arg);
+int		create_threads(t_table *table);
+void	join_threads(t_table *table);
+
 #endif
