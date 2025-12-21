@@ -23,6 +23,8 @@
 - [Project Structure](#-project-structure)
 - [Evaluation Checklist](#-evaluation-checklist)
 - [Advanced Topics](#-advanced-topics)
+- [Technical Deep Dive](#-technical-deep-dive) ⭐ **NEW**
+- [Evaluation Guide](#-evaluation-guide) 🎯 **NEW**
 - [Resources](#-resources)
 
 ---
@@ -1991,7 +1993,71 @@ This project is licensed under the MIT License - see the [LICENSE](LICENSE) file
 
 ---
 
-## 🎓 Learning Outcomes
+## 📚 Technical Deep Dive
+
+For in-depth explanations of the implementation, see **[TECHNICAL_DEEP_DIVE.md](TECHNICAL_DEEP_DIVE.md)** which covers:
+
+### 🎯 What's Inside:
+
+1. **Mathematical Proof of Deadlock Prevention**
+   - Formal proof by contradiction
+   - Why Resource Hierarchy is provably correct
+   - Visual examples with 5 philosophers
+
+2. **Deadlock Prevention: Lock Ordering**
+   - The four conditions for deadlock
+   - How Resource Hierarchy breaks circular wait
+   - Performance benefits (zero delays needed)
+
+3. **Even/Odd Delay Explained**
+   - Why starvation occurs with odd counts
+   - Timeline comparison with/without delay
+   - Adaptive thinking time formula
+
+4. **Death Timing: <10ms Precision**
+   - Monitor thread architecture
+   - Timing breakdown per check
+   - Optimization techniques
+
+5. **Thread vs Process Architecture**
+   - When to use each model
+   - Memory and performance comparison
+   - Shared state vs IPC mechanisms
+
+6. **Semaphores vs Mutexes**
+   - Key differences and use cases
+   - Fork representation genius (counting semaphore)
+   - Named semaphore cleanup
+
+**👉 [Read the full Technical Deep Dive](TECHNICAL_DEEP_DIVE.md)**
+
+---
+
+## � Evaluation Guide
+
+**Quick reference card for your evaluation defense!**
+
+Need to explain your algorithm in 30 seconds? Want quick answers to common evaluator questions? This guide has you covered:
+
+- **Quick Answers**: Concise explanations for the 5 most common questions
+- **Math Proofs**: One-page proof of Dijkstra's algorithm
+- **Performance Metrics**: All numbers you need to know
+- **Critical Tests**: The 6 tests evaluators will run
+- **Common Mistakes**: What to avoid and why
+- **Defense Strategy**: How to present your work
+- **Pre-Eval Checklist**: Everything to verify before evaluation
+
+**Perfect for:**
+- Last-minute review before evaluation
+- Practicing your defense
+- Quick lookup during Q&A
+- Understanding what evaluators look for
+
+**👉 [Read the Evaluation Guide](EVALUATION_GUIDE.md)**
+
+---
+
+## �🎓 Learning Outcomes
 
 By completing this project, you will master:
 
