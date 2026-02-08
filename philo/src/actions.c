@@ -83,11 +83,11 @@ void	take_forks(t_philo *philo)
 */
 void	eat_action(t_philo *philo)
 {
-	safe_print(philo, "is eating");
 	pthread_mutex_lock(&philo->table->meal_lock);
 	philo->last_meal_time = get_time_ms();
 	philo->meals_count++;
 	pthread_mutex_unlock(&philo->table->meal_lock);
+	safe_print(philo, "is eating");
 	smart_sleep(philo->table->time_to_eat);
 }
 

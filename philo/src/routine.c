@@ -46,7 +46,7 @@ void	*philosopher_routine(void *arg)
 		return (NULL);
 	}
 	if (philo->id % 2 == 0)
-		usleep(15000);
+		usleep(philo->table->time_to_eat * 500);
 	while (!should_end_simulation(philo->table))
 	{
 		take_forks(philo);
