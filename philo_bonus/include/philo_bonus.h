@@ -43,6 +43,7 @@ typedef struct s_philo
 	long				last_meal_time;
 	pid_t				pid;
 	pthread_t			monitor;
+	pthread_mutex_t		meal_lock;
 	t_table				*table;
 }	t_philo;
 

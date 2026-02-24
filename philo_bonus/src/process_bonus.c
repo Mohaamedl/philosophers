@@ -28,7 +28,11 @@
 */
 void	philosopher_process(t_philo *philo)
 {
+	if (pthread_mutex_init(&philo->meal_lock, NULL) != 0)
+		exit(1);
+	pthread_mutex_lock(&philo->meal_lock);
 	philo->last_meal_time = philo->table->start_time;
+	pthread_mutex_unlock(&philo->meal_lock);
 	if (start_monitor(philo) != 0)
 		exit(1);
 	if (philo->table->philo_count == 1)

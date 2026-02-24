@@ -30,8 +30,10 @@ bool	is_philosopher_dead(t_philo *philo)
 	long	current_time;
 	long	time_since_meal;
 
+	pthread_mutex_lock(&philo->meal_lock);
 	current_time = get_time_ms();
 	time_since_meal = current_time - philo->last_meal_time;
+	pthread_mutex_unlock(&philo->meal_lock);
 	return (time_since_meal >= philo->table->time_to_die);
 }
 

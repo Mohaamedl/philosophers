@@ -115,7 +115,7 @@ int	init_philosophers(t_table *table)
 	{
 		table->philos[i].id = i + 1;
 		table->philos[i].meals_count = 0;
-		table->philos[i].last_meal_time = 0;
+		table->philos[i].last_meal_time = table->start_time;
 		table->philos[i].left_fork = &table->forks[i];
 		table->philos[i].right_fork = &table->forks[(i + 1)
 			% table->philo_count];

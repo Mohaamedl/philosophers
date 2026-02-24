@@ -50,8 +50,10 @@ void	take_forks(t_philo *philo)
 void	eat_action(t_philo *philo)
 {
 	safe_print(philo, "is eating");
+	pthread_mutex_lock(&philo->meal_lock);
 	philo->last_meal_time = get_time_ms();
 	philo->meals_count++;
+	pthread_mutex_unlock(&philo->meal_lock);
 	smart_sleep(philo->table->time_to_eat);
 }
 

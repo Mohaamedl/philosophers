@@ -91,18 +91,19 @@ void	precise_sleep(long duration)
 void	smart_sleep(long duration)
 {
 	long	start;
-	long	elapsed;
-	long	bulk_sleep;
+	long	remaining;
 
 	start = get_time_ms();
-	bulk_sleep = duration * 9 / 10;
-	if (bulk_sleep > 0)
-		usleep(bulk_sleep * 1000);
 	while (1)
 	{
-		elapsed = get_time_ms() - start;
-		if (elapsed >= duration)
+		remaining = duration - (get_time_ms() - start);
+		if (remaining <= 0)
 			break ;
-		usleep(50);
+		if (remaining > 10)
+			usleep((remaining - 5) * 1000);
+		else if (remaining > 2)
+			usleep(1000);
+		else
+			usleep(200);
 	}
 }

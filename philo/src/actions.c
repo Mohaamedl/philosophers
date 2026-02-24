@@ -62,6 +62,7 @@ void	take_forks(t_philo *philo)
 	safe_print(philo, "has taken a fork");
 	pthread_mutex_lock(second_fork);
 	safe_print(philo, "has taken a fork");
+	
 }
 
 /*
@@ -145,6 +146,7 @@ void	think_action(t_philo *philo)
 	long	think_time;
 
 	safe_print(philo, "is thinking");
+	think_time = 0;
 	if (philo->table->philo_count % 2 != 0)
 	{
 		think_time = (philo->table->time_to_eat * 2)
@@ -153,7 +155,9 @@ void	think_action(t_philo *philo)
 			think_time = 0;
 		if (think_time > 600)
 			think_time = 200;
-		if (think_time > 0)
-			usleep(think_time * 1000);
 	}
+	else if (philo->table->time_to_eat >= philo->table->time_to_sleep)
+		think_time = 1;
+	if (think_time > 0)
+		usleep(think_time * 1000);
 }

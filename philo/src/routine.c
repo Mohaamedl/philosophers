@@ -35,9 +35,6 @@ void	*philosopher_routine(void *arg)
 	t_philo	*philo;
 
 	philo = (t_philo *)arg;
-	pthread_mutex_lock(&philo->table->meal_lock);
-	philo->last_meal_time = philo->table->start_time;
-	pthread_mutex_unlock(&philo->table->meal_lock);
 	if (philo->table->philo_count == 1)
 	{
 		take_forks(philo);
